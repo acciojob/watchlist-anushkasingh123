@@ -8,44 +8,45 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 public class MovieController {
 
     @Autowired
     MovieService movieService;
 
-    @PostMapping("/add-movie")
+    @PostMapping("/movies/add-movie")
     public ResponseEntity addMovie(@RequestBody Movie movie)
     {
         String response =movieService.addMovie(movie);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    @PostMapping("/add-director")
+    @PostMapping("/movies/add-director")
     public ResponseEntity addDirector(@RequestBody Director director)
     {
         String response =movieService.addDirector(director);
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
-    @PutMapping("/add-movie-director-pair")
+    @PutMapping("/movies/add-movie-director-pair")
     public ResponseEntity addMovieDirectorPair(@RequestParam("nameM") String nameM,@RequestParam("nameD") String nameD)
     {
         String response=movieService.addMovieDirectorPair(nameM,nameD);
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
-    @GetMapping("/get-movie-by-name/{nameM}")
+    @GetMapping("/movies/get-movie-by-name/{nameM}")
     public ResponseEntity getMovieByName(@PathVariable("nameM") String nameM)
     {
         Movie movie = movieService.getMovieByName(nameM);
         return new ResponseEntity<>(movie,HttpStatus.FOUND);
     }
-    @GetMapping("/get-director-by-name/{nameD}")
+    @GetMapping("/movies/get-director-by-name/{nameD}")
     public ResponseEntity getDirectorByName(@PathVariable("nameD") String nameD)
     {
         Director director = movieService.getDirectorByName(nameD);
         return new ResponseEntity<>(director,HttpStatus.FOUND);
     }
 
-    @GetMapping("/get-movies-by-director-name/{nameD}")
+    @GetMapping("/movies/get-movies-by-director-name/{nameD}")
     public ResponseEntity getMoviesByDirectorName(@PathVariable("nameD") String nameD)
     {
         List<String>ml=new ArrayList<>();
@@ -54,7 +55,7 @@ public class MovieController {
         return new ResponseEntity<>(ml,HttpStatus.FOUND);
     }
 
-    @GetMapping("/get-all-movies")
+    @GetMapping("/movies/get-all-movies")
     public ResponseEntity findAllMovies()
     {
         List<String>ml=new ArrayList<>();
@@ -62,14 +63,14 @@ public class MovieController {
         return new ResponseEntity(ml,HttpStatus.FOUND);
     }
 
-    @DeleteMapping("/delete-director-by-name")
+    @DeleteMapping("/movies/delete-director-by-name")
     public ResponseEntity deleteDirectorByName(@RequestParam("nameD") String nameD)
     {
         String response=movieService.deleteDirectorByName(nameD);
         return new ResponseEntity(response,HttpStatus.ACCEPTED);
 
     }
-    @DeleteMapping("/delete-all-directors")
+    @DeleteMapping("/movies/delete-all-directors")
     public ResponseEntity deleteAllDirectors()
     {
         String response=movieService.deleteAllDirectors();

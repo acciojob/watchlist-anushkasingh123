@@ -27,17 +27,20 @@ public class MovieRepository {
     }
     public String addMovieDirectorPair(String nameM,String nameD)
     {
-        if(Mdb.containsKey(nameM)&&Ddb.containsKey(nameD))
+        if(!Mdb.containsKey(nameM)||!Ddb.containsKey(nameD))
         {
-            List<String>ml=new ArrayList<>();
-            if(Pdb.containsKey(nameD)) {
-                ml=Pdb.get(nameD);
-                ml.add(nameM);
-                Pdb.put(nameD,ml);
-            }
+            return "Movie or director not present in the database";
         }
-        return "Pair added successfully";
-    }
+            List<String>ml=Pdb.getOrDefault(nameD,new ArrayList<>());
+            if(ml.contains(nameM))
+            {
+                return "Pair already exist";
+            }
+            ml.add(nameM);
+            Pdb.put(nameD,ml);
+            return "Pair added successfully";
+        }
+
     public Movie getMovieByName(String nameM)
     {
         if(Mdb.containsKey(nameM))
