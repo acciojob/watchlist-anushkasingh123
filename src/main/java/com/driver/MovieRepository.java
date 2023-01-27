@@ -27,19 +27,29 @@ public class MovieRepository {
     }
     public String addMovieDirectorPair(String nameM,String nameD)
     {
-        if(!Mdb.containsKey(nameM)||!Ddb.containsKey(nameD))
+        if(Mdb.containsKey(nameM)&&Ddb.containsKey(nameD))
         {
-            return "Movie or director not present in the database";
-        }
-            List<String>ml=Pdb.getOrDefault(nameD,new ArrayList<>());
-            if(ml.contains(nameM))
+            List<String>ml=new ArrayList<>();
+            if(Pdb.containsKey(nameD))
             {
-                return "Pair already exist";
+                if(Pdb.get(nameD).contains(nameM))
+                {
+                    return "Pair already exist";
+                }
+                ml=Pdb.get(nameD);
+                ml.add(nameM);
+                Pdb.put(nameD,ml);
             }
-            ml.add(nameM);
-            Pdb.put(nameD,ml);
+            else
+            {
+                ml.add(nameM);
+                Pdb.put(nameD,ml);
+            }
             return "Pair added successfully";
         }
+        return "database does not contains pair";
+
+    }
 
     public Movie getMovieByName(String nameM)
     {
